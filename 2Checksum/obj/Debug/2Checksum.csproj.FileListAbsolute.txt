@@ -1,0 +1,10 @@
+D:\Projects\00_App\CSharp\2Checksum\2Checksum\bin\Debug\2Checksum.exe.config
+D:\Projects\00_App\2Checksum\2Checksum\bin\Debug\2Checksum.exe.config
+D:\Projects\00_App\2Checksum\2Checksum\bin\Debug\2Checksum.exe
+D:\Projects\00_App\2Checksum\2Checksum\bin\Debug\2Checksum.pdb
+D:\Projects\00_App\2Checksum\2Checksum\obj\Debug\2Checksum.csprojResolveAssemblyReference.cache
+D:\Projects\00_App\2Checksum\2Checksum\obj\Debug\_2Checksum.Form1.resources
+D:\Projects\00_App\2Checksum\2Checksum\obj\Debug\_2Checksum.Properties.Resources.resources
+D:\Projects\00_App\2Checksum\2Checksum\obj\Debug\2Checksum.csproj.GenerateResource.Cache
+D:\Projects\00_App\2Checksum\2Checksum\obj\Debug\2Checksum.exe
+D:\Projects\00_App\2Checksum\2Checksum\obj\Debug\2Checksum.pdb
