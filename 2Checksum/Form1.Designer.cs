@@ -41,9 +41,9 @@
             // 
             this.Button_Browse.Image = ((System.Drawing.Image)(resources.GetObject("Button_Browse.Image")));
             this.Button_Browse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_Browse.Location = new System.Drawing.Point(298, 45);
+            this.Button_Browse.Location = new System.Drawing.Point(325, 51);
             this.Button_Browse.Name = "Button_Browse";
-            this.Button_Browse.Size = new System.Drawing.Size(109, 39);
+            this.Button_Browse.Size = new System.Drawing.Size(109, 36);
             this.Button_Browse.TabIndex = 0;
             this.Button_Browse.Text = "Browse";
             this.Button_Browse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -54,13 +54,14 @@
             // 
             this.Button_Copy.Image = ((System.Drawing.Image)(resources.GetObject("Button_Copy.Image")));
             this.Button_Copy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_Copy.Location = new System.Drawing.Point(298, 90);
+            this.Button_Copy.Location = new System.Drawing.Point(325, 93);
             this.Button_Copy.Name = "Button_Copy";
-            this.Button_Copy.Size = new System.Drawing.Size(109, 39);
+            this.Button_Copy.Size = new System.Drawing.Size(109, 36);
             this.Button_Copy.TabIndex = 1;
             this.Button_Copy.Text = "Copy";
             this.Button_Copy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Button_Copy.UseVisualStyleBackColor = true;
+            this.Button_Copy.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // RadioButton_4digitChecksum
             // 
@@ -97,17 +98,18 @@
             this.RichTextBox_FileInfo.Location = new System.Drawing.Point(12, 36);
             this.RichTextBox_FileInfo.Name = "RichTextBox_FileInfo";
             this.RichTextBox_FileInfo.ReadOnly = true;
-            this.RichTextBox_FileInfo.Size = new System.Drawing.Size(280, 93);
+            this.RichTextBox_FileInfo.Size = new System.Drawing.Size(307, 93);
             this.RichTextBox_FileInfo.TabIndex = 6;
             this.RichTextBox_FileInfo.Text = "";
             this.RichTextBox_FileInfo.WordWrap = false;
             // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(416, 138);
+            this.ClientSize = new System.Drawing.Size(443, 138);
             this.Controls.Add(this.RichTextBox_FileInfo);
             this.Controls.Add(this.RadioButton_8digitChecksum);
             this.Controls.Add(this.RadioButton_4digitChecksum);
@@ -121,6 +123,8 @@
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "2Checksum";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.ResumeLayout(false);
             this.PerformLayout();
 

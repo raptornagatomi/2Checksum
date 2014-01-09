@@ -17,3 +17,12 @@ M:\Projects\2Checksum\2Checksum\obj\Debug\2Checksum.csprojResolveAssemblyReferen
 M:\Projects\2Checksum\2Checksum\obj\Debug\_2Checksum.Form1.resources
 M:\Projects\2Checksum\2Checksum\obj\Debug\_2Checksum.Properties.Resources.resources
 M:\Projects\2Checksum\2Checksum\obj\Debug\2Checksum.csproj.GenerateResource.Cache
+E:\Projects\00_App\2Checksum\2Checksum\bin\Debug\2Checksum.exe.config
+E:\Projects\00_App\2Checksum\2Checksum\obj\Debug\2Checksum.exe
+E:\Projects\00_App\2Checksum\2Checksum\obj\Debug\2Checksum.pdb
+E:\Projects\00_App\2Checksum\2Checksum\obj\Debug\2Checksum.csprojResolveAssemblyReference.cache
+E:\Projects\00_App\2Checksum\2Checksum\obj\Debug\_2Checksum.Form1.resources
+E:\Projects\00_App\2Checksum\2Checksum\obj\Debug\_2Checksum.Properties.Resources.resources
+E:\Projects\00_App\2Checksum\2Checksum\obj\Debug\2Checksum.csproj.GenerateResource.Cache
+E:\Projects\00_App\2Checksum\2Checksum\bin\Debug\2Checksum.exe
+E:\Projects\00_App\2Checksum\2Checksum\bin\Debug\2Checksum.pdb
