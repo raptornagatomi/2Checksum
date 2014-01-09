@@ -137,6 +137,8 @@ namespace _2Checksum
                         Monitor.Wait(Locker);
                     }
                 }
+
+                FinishThreadCount = 0;
             }
         }
 
