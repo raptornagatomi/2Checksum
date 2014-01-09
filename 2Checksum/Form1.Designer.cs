@@ -33,27 +33,28 @@
             this.Button_Copy = new System.Windows.Forms.Button();
             this.RadioButton_4digitChecksum = new System.Windows.Forms.RadioButton();
             this.RadioButton_8digitChecksum = new System.Windows.Forms.RadioButton();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.Panel_Icon = new System.Windows.Forms.Panel();
+            this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.RichTextBox_FileInfo = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // Button_Browse
             // 
             this.Button_Browse.Image = ((System.Drawing.Image)(resources.GetObject("Button_Browse.Image")));
             this.Button_Browse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_Browse.Location = new System.Drawing.Point(298, 81);
+            this.Button_Browse.Location = new System.Drawing.Point(298, 45);
             this.Button_Browse.Name = "Button_Browse";
             this.Button_Browse.Size = new System.Drawing.Size(109, 39);
             this.Button_Browse.TabIndex = 0;
             this.Button_Browse.Text = "Browse";
             this.Button_Browse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Button_Browse.UseVisualStyleBackColor = true;
+            this.Button_Browse.Click += new System.EventHandler(this.Button_Browse_Click);
             // 
             // Button_Copy
             // 
             this.Button_Copy.Image = ((System.Drawing.Image)(resources.GetObject("Button_Copy.Image")));
             this.Button_Copy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_Copy.Location = new System.Drawing.Point(298, 126);
+            this.Button_Copy.Location = new System.Drawing.Point(298, 90);
             this.Button_Copy.Name = "Button_Copy";
             this.Button_Copy.Size = new System.Drawing.Size(109, 39);
             this.Button_Copy.TabIndex = 1;
@@ -72,6 +73,7 @@
             this.RadioButton_4digitChecksum.TabStop = true;
             this.RadioButton_4digitChecksum.Text = "4-Digit Checksum";
             this.RadioButton_4digitChecksum.UseVisualStyleBackColor = true;
+            this.RadioButton_4digitChecksum.CheckedChanged += new System.EventHandler(this.RadioButton_4digitChecksum_CheckedChanged);
             // 
             // RadioButton_8digitChecksum
             // 
@@ -82,30 +84,31 @@
             this.RadioButton_8digitChecksum.TabIndex = 3;
             this.RadioButton_8digitChecksum.Text = "8-Digit Checksum";
             this.RadioButton_8digitChecksum.UseVisualStyleBackColor = true;
+            this.RadioButton_8digitChecksum.CheckedChanged += new System.EventHandler(this.RadioButton_8digitChecksum_CheckedChanged);
             // 
-            // listView1
+            // OpenFileDialog
             // 
-            this.listView1.Location = new System.Drawing.Point(12, 36);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(280, 129);
-            this.listView1.TabIndex = 4;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.OpenFileDialog.FileName = "OpenFileDialog";
             // 
-            // Panel_Icon
+            // RichTextBox_FileInfo
             // 
-            this.Panel_Icon.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Panel_Icon.BackgroundImage")));
-            this.Panel_Icon.Location = new System.Drawing.Point(356, 12);
-            this.Panel_Icon.Name = "Panel_Icon";
-            this.Panel_Icon.Size = new System.Drawing.Size(48, 48);
-            this.Panel_Icon.TabIndex = 5;
+            this.RichTextBox_FileInfo.BackColor = System.Drawing.SystemColors.Window;
+            this.RichTextBox_FileInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RichTextBox_FileInfo.Location = new System.Drawing.Point(12, 36);
+            this.RichTextBox_FileInfo.Name = "RichTextBox_FileInfo";
+            this.RichTextBox_FileInfo.ReadOnly = true;
+            this.RichTextBox_FileInfo.Size = new System.Drawing.Size(280, 93);
+            this.RichTextBox_FileInfo.TabIndex = 6;
+            this.RichTextBox_FileInfo.Text = "";
+            this.RichTextBox_FileInfo.WordWrap = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(416, 178);
-            this.Controls.Add(this.Panel_Icon);
-            this.Controls.Add(this.listView1);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(416, 138);
+            this.Controls.Add(this.RichTextBox_FileInfo);
             this.Controls.Add(this.RadioButton_8digitChecksum);
             this.Controls.Add(this.RadioButton_4digitChecksum);
             this.Controls.Add(this.Button_Copy);
@@ -115,6 +118,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
+            this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "2Checksum";
             this.ResumeLayout(false);
@@ -128,8 +132,8 @@
         private System.Windows.Forms.Button Button_Copy;
         private System.Windows.Forms.RadioButton RadioButton_4digitChecksum;
         private System.Windows.Forms.RadioButton RadioButton_8digitChecksum;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.Panel Panel_Icon;
+        private System.Windows.Forms.OpenFileDialog OpenFileDialog;
+        private System.Windows.Forms.RichTextBox RichTextBox_FileInfo;
     }
 }
 
