@@ -256,6 +256,10 @@ namespace _2Checksum
 
         private void CheckBox_Verbose_Click(object sender, EventArgs e)
         {
+            // Check if any file checksum has been calculated
+            if (FileInformation == null)
+                return;
+
             // Display & Update file information
             for (int i = 0; i < FileInformation.Length; i++)
             {
