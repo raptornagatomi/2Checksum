@@ -83,20 +83,24 @@ namespace _2Checksum
         //
         private void DisplayAndUpdateFileInformation()
         {
-            const string STR_FILENAME_PROMPT = "Filename    : ";
-            const string STR_FILEDATE_PROMPT = "File date   : ";
-            const string STR_FILESIZE_PROMPT = "File size   : ";
-            const string STR_CHECKSUM_PROMPT = "Checksum    : ";
+            if (CheckBox_Verbose.Checked)
+            {
+                const string STR_FILENAME_PROMPT = "Filename    : ";
+                const string STR_FILEDATE_PROMPT = "File time   : ";
+                const string STR_FILESIZE_PROMPT = "File size   : ";
+                const string STR_CHECKSUM_PROMPT = "Checksum    : ";
 
-            RichTextBox_FileInfo.Clear();
-            RichTextBox_FileInfo.AppendText(STR_FILENAME_PROMPT + Path.GetFileName(FileInformation.Filename) + "\n");
-            RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + FileInformation.FileTime.ToString() + "\n");
-            RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
-
-            if(RadioButton_4digitChecksum.Checked)
+                RichTextBox_FileInfo.Clear();
+                RichTextBox_FileInfo.AppendText(STR_FILENAME_PROMPT + Path.GetFileName(FileInformation.Filename) + "\n");
+                RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + FileInformation.FileTime.ToString() + "\n");
+                RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
                 RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h\n");
+            }
             else
-                RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + "h\n");
+            {
+                RichTextBox_FileInfo.Clear();
+                RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (" + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h" + ")");
+            }
         }
 
         //
@@ -236,6 +240,12 @@ namespace _2Checksum
             // Display & Update file information
             DisplayAndUpdateFileInformation();
         }
+
+        private void CheckBox_Verbose_Click(object sender, EventArgs e)
+        {
+            // Display & Update file information
+            DisplayAndUpdateFileInformation();
+        }
     }
 
     //
@@ -243,7 +253,7 @@ namespace _2Checksum
     //
     class _FileInformation
     {
-        private string _Filename = "N/A";
+        private string _Filename = "Not Available";
         private DateTime _FileTime = new DateTime();
         private long _FileSize = 0;
         private uint _Checksum = 0U;
