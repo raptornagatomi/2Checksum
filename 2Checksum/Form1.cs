@@ -29,7 +29,7 @@ namespace _2Checksum
     {
         const int MAX_THREAD_NUM = 20;
 
-        private _FileInformation FileInformation = new _FileInformation();
+        private _FileInformation[] FileInformation;
         private object Locker = new object();
         private int FinishThreadCount = 0;
         private uint Checksum = 0U;
@@ -51,21 +51,34 @@ namespace _2Checksum
 
             if (OpenFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                // Retrieve FileInformation
-                FileToCalc = File.Open(OpenFileDialog1.FileName, FileMode.Open, FileAccess.Read);
+                // Assign memory for FileInformation array
+                FileInformation = new _FileInformation[OpenFileDialog1.FileNames.Length];
+                for (int i = 0; i < OpenFileDialog1.FileNames.Length; i++)
+                {
+                    FileInformation[i] = new _FileInformation();
+                }
 
-                FileInformation.Filename = OpenFileDialog1.FileName;
-                FileInformation.FileTime = File.GetLastWriteTime(OpenFileDialog1.FileName);
-                FileInformation.FileSize = FileToCalc.Length;
+                for (int i = 0; i < OpenFileDialog1.FileNames.Length; i++)
+                {
+                    // Retrieve FileInformation
+                    FileToCalc = File.Open(OpenFileDialog1.FileNames[i], FileMode.Open, FileAccess.Read);
 
-                FileToCalc.Close();
+                    FileInformation[i].Filename = OpenFileDialog1.FileNames[i];
+                    FileInformation[i].FileTime = File.GetLastWriteTime(OpenFileDialog1.FileNames[i]);
+                    FileInformation[i].FileSize = FileToCalc.Length;
 
-                // Calculate checksum
-                CalcChecksum(FileInformation.Filename, FileInformation.FileSize, MAX_THREAD_NUM);
-                FileInformation.Checksum = Checksum;
+                    FileToCalc.Close();
 
-                // Display & Update file information
-                DisplayAndUpdateFileInformation();
+                    // Calculate checksum
+                    CalcChecksum(FileInformation[i].Filename, FileInformation[i].FileSize, MAX_THREAD_NUM);
+                    FileInformation[i].Checksum = Checksum;
+
+                    // Display & Update file information
+                    if (i == 0)
+                        DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                    else
+                        DisplayAndUpdateFileInformation(false, FileInformation[i]);
+                }
             }
         }
 
@@ -81,8 +94,13 @@ namespace _2Checksum
         //
         // Procedure: DisplayAndUpdateFileInformation
         //
-        private void DisplayAndUpdateFileInformation()
+        private void DisplayAndUpdateFileInformation(bool bClearContent, _FileInformation FileInformation)
         {
+            if (bClearContent)
+            {
+                RichTextBox_FileInfo.Clear();
+            }
+
             if (CheckBox_Verbose.Checked)
             {
                 const string STR_FILENAME_PROMPT = "Filename    : ";
@@ -90,7 +108,6 @@ namespace _2Checksum
                 const string STR_FILESIZE_PROMPT = "File size   : ";
                 const string STR_CHECKSUM_PROMPT = "Checksum    : ";
 
-                RichTextBox_FileInfo.Clear();
                 RichTextBox_FileInfo.AppendText(STR_FILENAME_PROMPT + Path.GetFileName(FileInformation.Filename) + "\n");
                 RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + FileInformation.FileTime.ToString() + "\n");
                 RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
@@ -98,9 +115,10 @@ namespace _2Checksum
             }
             else
             {
-                RichTextBox_FileInfo.Clear();
                 RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (" + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h" + ")");
             }
+
+            RichTextBox_FileInfo.AppendText("\n");
         }
 
         //
@@ -190,24 +208,6 @@ namespace _2Checksum
         }
 
         //
-        // Procedure: RadioButton_4digitChecksum_CheckedChanged
-        //
-        private void RadioButton_4digitChecksum_CheckedChanged(object sender, EventArgs e)
-        {
-            // Display & Update file information
-            DisplayAndUpdateFileInformation();
-        }
-
-        //
-        // Procedure: RadioButton_8digitChecksum_CheckedChanged
-        //
-        private void RadioButton_8digitChecksum_CheckedChanged(object sender, EventArgs e)
-        {
-            // Display & Update file information
-            DisplayAndUpdateFileInformation();
-        }
-
-        //
         // Procedure: Form1_DragEnter
         //
         private void Form1_DragEnter(object sender, DragEventArgs e)
@@ -224,27 +224,46 @@ namespace _2Checksum
             FileStream FileToCalc;
             string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            // Retrieve FileInformation
-            FileToCalc = File.Open(FileList[0], FileMode.Open, FileAccess.Read);
+            // Assign memory for FileInformation array
+            FileInformation = new _FileInformation[FileList.Length];
+            for (int i = 0; i < FileList.Length; i++)
+            {
+                FileInformation[i] = new _FileInformation();
+            }
 
-            FileInformation.Filename = FileList[0];
-            FileInformation.FileTime = File.GetLastWriteTime(FileList[0]);
-            FileInformation.FileSize = FileToCalc.Length;
+            for (int i = 0; i < FileList.Length; i++)
+            {
+                // Retrieve FileInformation
+                FileToCalc = File.Open(FileList[i], FileMode.Open, FileAccess.Read);
 
-            FileToCalc.Close();
+                FileInformation[i].Filename = FileList[i];
+                FileInformation[i].FileTime = File.GetLastWriteTime(FileList[i]);
+                FileInformation[i].FileSize = FileToCalc.Length;
 
-            // Calculate checksum
-            CalcChecksum(FileInformation.Filename, FileInformation.FileSize, MAX_THREAD_NUM);
-            FileInformation.Checksum = Checksum;
+                FileToCalc.Close();
 
-            // Display & Update file information
-            DisplayAndUpdateFileInformation();
+                // Calculate checksum
+                CalcChecksum(FileInformation[i].Filename, FileInformation[i].FileSize, MAX_THREAD_NUM);
+                FileInformation[i].Checksum = Checksum;
+
+                // Display & Update file information
+                if (i == 0)
+                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                else
+                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+            }
         }
 
         private void CheckBox_Verbose_Click(object sender, EventArgs e)
         {
             // Display & Update file information
-            DisplayAndUpdateFileInformation();
+            for (int i = 0; i < FileInformation.Length; i++)
+            {
+                if (i == 0)
+                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                else
+                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+            }
         }
     }
 
