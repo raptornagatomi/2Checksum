@@ -254,6 +254,9 @@ namespace _2Checksum
             }
         }
 
+        //
+        // Procedure: CheckBox_Verbose_Click
+        //
         private void CheckBox_Verbose_Click(object sender, EventArgs e)
         {
             // Check if any file checksum has been calculated
