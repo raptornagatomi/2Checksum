@@ -77,6 +77,7 @@
             this.RichTextBox_FileInfo.Location = new System.Drawing.Point(12, 12);
             this.RichTextBox_FileInfo.Name = "RichTextBox_FileInfo";
             this.RichTextBox_FileInfo.ReadOnly = true;
+            this.RichTextBox_FileInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.RichTextBox_FileInfo.Size = new System.Drawing.Size(307, 156);
             this.RichTextBox_FileInfo.TabIndex = 6;
             this.RichTextBox_FileInfo.Text = "";
