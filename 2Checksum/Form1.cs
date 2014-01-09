@@ -69,12 +69,13 @@ namespace _2Checksum
             RichTextBox_FileInfo.Clear();
             RichTextBox_FileInfo.AppendText(STR_FILENAME_PROMPT + Path.GetFileName(FileInformation.Filename) + "\n");
             RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + FileInformation.FileTime.ToString() + "\n");
-            RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + FileInformation.FileSize.ToString() + " bytes\n");
+            //RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + FileInformation.FileSize.ToString() + " bytes\n");
+            RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
 
             if(RadioButton_4digitChecksum.Checked)
-                RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0,4:X4}", (FileInformation.Checksum & 0xFFFF)) + "h\n");
+                RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h\n");
             else
-                RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0,8:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + "h\n");
+                RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + "h\n");
         }
 
         //
