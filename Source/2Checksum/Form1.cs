@@ -47,9 +47,40 @@ namespace _2Checksum
         //
         public Form1(string[] FileList)
         {
-            FileStream FileToCalc;
-
             InitializeComponent();
+            GatherFileInformation(FileList);
+        }
+
+        //
+        // Procedure: Button_Browse_Click
+        //
+        private void Button_Browse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OpenFileDialog1 = new OpenFileDialog();
+
+            OpenFileDialog1.Multiselect = true;
+
+            if (OpenFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                GatherFileInformation(OpenFileDialog1.FileNames);
+            }
+        }
+
+        //
+        // Procedure: Button_Copy_Click
+        //
+        private void Button_Copy_Click(object sender, EventArgs e)
+        {
+            if (RichTextBox_FileInfo.TextLength > 0)
+                Clipboard.SetText(RichTextBox_FileInfo.Text);
+        }
+
+        //
+        // Procedure: GatherFileInformation
+        //
+        private void GatherFileInformation(string[] FileList)
+        {
+            FileStream FileToCalc;
 
             // Assign memory for FileInformation array
             FileInformation = new _FileInformation[FileList.Length];
@@ -79,58 +110,6 @@ namespace _2Checksum
                 else
                     DisplayAndUpdateFileInformation(false, FileInformation[i]);
             }
-        }
-
-        //
-        // Procedure: Button_Browse_Click
-        //
-        private void Button_Browse_Click(object sender, EventArgs e)
-        {
-            FileStream FileToCalc;
-            OpenFileDialog OpenFileDialog1 = new OpenFileDialog();
-
-            OpenFileDialog1.Multiselect = true;
-
-            if (OpenFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                // Assign memory for FileInformation array
-                FileInformation = new _FileInformation[OpenFileDialog1.FileNames.Length];
-                for (int i = 0; i < OpenFileDialog1.FileNames.Length; i++)
-                {
-                    FileInformation[i] = new _FileInformation();
-                }
-
-                for (int i = 0; i < OpenFileDialog1.FileNames.Length; i++)
-                {
-                    // Retrieve FileInformation
-                    FileToCalc = File.Open(OpenFileDialog1.FileNames[i], FileMode.Open, FileAccess.Read);
-
-                    FileInformation[i].Filename = OpenFileDialog1.FileNames[i];
-                    FileInformation[i].FileTime = File.GetLastWriteTime(OpenFileDialog1.FileNames[i]);
-                    FileInformation[i].FileSize = FileToCalc.Length;
-
-                    FileToCalc.Close();
-
-                    // Calculate checksum
-                    CalcChecksum(FileInformation[i].Filename, FileInformation[i].FileSize, MAX_THREAD_NUM);
-                    FileInformation[i].Checksum = Checksum;
-
-                    // Display & Update file information
-                    if (i == 0)
-                        DisplayAndUpdateFileInformation(true, FileInformation[i]);
-                    else
-                        DisplayAndUpdateFileInformation(false, FileInformation[i]);
-                }
-            }
-        }
-
-        //
-        // Procedure: Button_Copy_Click
-        //
-        private void Button_Copy_Click(object sender, EventArgs e)
-        {
-            if (RichTextBox_FileInfo.TextLength > 0)
-                Clipboard.SetText(RichTextBox_FileInfo.Text);
         }
 
         //
@@ -263,37 +242,9 @@ namespace _2Checksum
         //
         private void Form1_DragDrop(object sender, DragEventArgs e)
         {
-            FileStream FileToCalc;
             string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            // Assign memory for FileInformation array
-            FileInformation = new _FileInformation[FileList.Length];
-            for (int i = 0; i < FileList.Length; i++)
-            {
-                FileInformation[i] = new _FileInformation();
-            }
-
-            for (int i = 0; i < FileList.Length; i++)
-            {
-                // Retrieve FileInformation
-                FileToCalc = File.Open(FileList[i], FileMode.Open, FileAccess.Read);
-
-                FileInformation[i].Filename = FileList[i];
-                FileInformation[i].FileTime = File.GetLastWriteTime(FileList[i]);
-                FileInformation[i].FileSize = FileToCalc.Length;
-
-                FileToCalc.Close();
-
-                // Calculate checksum
-                CalcChecksum(FileInformation[i].Filename, FileInformation[i].FileSize, MAX_THREAD_NUM);
-                FileInformation[i].Checksum = Checksum;
-
-                // Display & Update file information
-                if (i == 0)
-                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
-                else
-                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
-            }
+            GatherFileInformation(FileList);
         }
 
         //
