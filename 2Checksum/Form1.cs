@@ -34,9 +34,51 @@ namespace _2Checksum
         private int FinishThreadCount = 0;
         private uint Checksum = 0U;
 
+        //
+        // Constructor: Form1()
+        //
         public Form1()
         {
             InitializeComponent();
+        }
+
+        //
+        // Constructor: Form1(string[] FileList)
+        //
+        public Form1(string[] FileList)
+        {
+            FileStream FileToCalc;
+
+            InitializeComponent();
+
+            // Assign memory for FileInformation array
+            FileInformation = new _FileInformation[FileList.Length];
+            for (int i = 0; i < FileList.Length; i++)
+            {
+                FileInformation[i] = new _FileInformation();
+            }
+
+            for (int i = 0; i < FileList.Length; i++)
+            {
+                // Retrieve FileInformation
+                FileToCalc = File.Open(FileList[i], FileMode.Open, FileAccess.Read);
+
+                FileInformation[i].Filename = FileList[i];
+                FileInformation[i].FileTime = File.GetLastWriteTime(FileList[i]);
+                FileInformation[i].FileSize = FileToCalc.Length;
+
+                FileToCalc.Close();
+
+                // Calculate checksum
+                CalcChecksum(FileInformation[i].Filename, FileInformation[i].FileSize, MAX_THREAD_NUM);
+                FileInformation[i].Checksum = Checksum;
+
+                // Display & Update file information
+                if (i == 0)
+                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                else
+                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+            }
         }
 
         //
