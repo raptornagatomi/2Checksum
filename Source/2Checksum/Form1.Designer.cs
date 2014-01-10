@@ -35,7 +35,6 @@
             this.RichTextBox_FileInfo = new System.Windows.Forms.RichTextBox();
             this.CheckBox_Verbose = new System.Windows.Forms.CheckBox();
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
-            this.Label_Version = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,22 +99,11 @@
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox_Logo.Image")));
-            this.PictureBox_Logo.Location = new System.Drawing.Point(355, 120);
+            this.PictureBox_Logo.Location = new System.Drawing.Point(368, 120);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
             this.PictureBox_Logo.Size = new System.Drawing.Size(48, 48);
             this.PictureBox_Logo.TabIndex = 8;
             this.PictureBox_Logo.TabStop = false;
-            // 
-            // Label_Version
-            // 
-            this.Label_Version.AutoSize = true;
-            this.Label_Version.Font = new System.Drawing.Font("Cataneo BT", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_Version.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.Label_Version.Location = new System.Drawing.Point(409, 151);
-            this.Label_Version.Name = "Label_Version";
-            this.Label_Version.Size = new System.Drawing.Size(49, 17);
-            this.Label_Version.TabIndex = 9;
-            this.Label_Version.Text = "v1.0.0.0";
             // 
             // Form1
             // 
@@ -124,7 +112,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(470, 178);
-            this.Controls.Add(this.Label_Version);
             this.Controls.Add(this.PictureBox_Logo);
             this.Controls.Add(this.CheckBox_Verbose);
             this.Controls.Add(this.RichTextBox_FileInfo);
@@ -154,7 +141,6 @@
         private System.Windows.Forms.RichTextBox RichTextBox_FileInfo;
         private System.Windows.Forms.CheckBox CheckBox_Verbose;
         private System.Windows.Forms.PictureBox PictureBox_Logo;
-        private System.Windows.Forms.Label Label_Version;
     }
 }
 
