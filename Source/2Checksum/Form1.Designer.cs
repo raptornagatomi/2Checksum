@@ -41,10 +41,11 @@
             // Button_Browse
             // 
             this.Button_Browse.BackColor = System.Drawing.Color.White;
+            this.Button_Browse.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
             this.Button_Browse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Button_Browse.Image = ((System.Drawing.Image)(resources.GetObject("Button_Browse.Image")));
             this.Button_Browse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_Browse.Location = new System.Drawing.Point(343, 78);
+            this.Button_Browse.Location = new System.Drawing.Point(343, 54);
             this.Button_Browse.Name = "Button_Browse";
             this.Button_Browse.Size = new System.Drawing.Size(117, 36);
             this.Button_Browse.TabIndex = 0;
@@ -56,10 +57,11 @@
             // Button_Copy
             // 
             this.Button_Copy.BackColor = System.Drawing.Color.White;
+            this.Button_Copy.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
             this.Button_Copy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Button_Copy.Image = ((System.Drawing.Image)(resources.GetObject("Button_Copy.Image")));
             this.Button_Copy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_Copy.Location = new System.Drawing.Point(343, 36);
+            this.Button_Copy.Location = new System.Drawing.Point(343, 12);
             this.Button_Copy.Name = "Button_Copy";
             this.Button_Copy.Size = new System.Drawing.Size(117, 36);
             this.Button_Copy.TabIndex = 1;
@@ -89,12 +91,16 @@
             // 
             // CheckBox_Verbose
             // 
+            this.CheckBox_Verbose.Appearance = System.Windows.Forms.Appearance.Button;
             this.CheckBox_Verbose.AutoSize = true;
             this.CheckBox_Verbose.Checked = true;
             this.CheckBox_Verbose.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBox_Verbose.Location = new System.Drawing.Point(343, 12);
+            this.CheckBox_Verbose.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
+            this.CheckBox_Verbose.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
+            this.CheckBox_Verbose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBox_Verbose.Location = new System.Drawing.Point(343, 144);
             this.CheckBox_Verbose.Name = "CheckBox_Verbose";
-            this.CheckBox_Verbose.Size = new System.Drawing.Size(75, 18);
+            this.CheckBox_Verbose.Size = new System.Drawing.Size(66, 24);
             this.CheckBox_Verbose.TabIndex = 7;
             this.CheckBox_Verbose.Text = "Verbose";
             this.CheckBox_Verbose.UseVisualStyleBackColor = true;
@@ -103,7 +109,7 @@
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox_Logo.Image")));
-            this.PictureBox_Logo.Location = new System.Drawing.Point(368, 120);
+            this.PictureBox_Logo.Location = new System.Drawing.Point(412, 120);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
             this.PictureBox_Logo.Size = new System.Drawing.Size(48, 48);
             this.PictureBox_Logo.TabIndex = 8;

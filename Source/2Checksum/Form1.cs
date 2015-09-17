@@ -4,14 +4,7 @@
 //
 //-------------------------------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
@@ -151,7 +144,7 @@ namespace _2Checksum
                 RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
                 RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h\n");
 
-                if(FileInformation.ExeFileVersion != null)
+                if (FileInformation.ExeFileVersion != null)
                     RichTextBox_FileInfo.AppendText(STR_FILE_VER_PROMPT + FileInformation.ExeFileVersion + "\n");
             }
             else
