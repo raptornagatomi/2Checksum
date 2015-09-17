@@ -40,28 +40,32 @@
             // 
             // Button_Browse
             // 
+            this.Button_Browse.BackColor = System.Drawing.Color.White;
+            this.Button_Browse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Button_Browse.Image = ((System.Drawing.Image)(resources.GetObject("Button_Browse.Image")));
             this.Button_Browse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_Browse.Location = new System.Drawing.Point(341, 78);
+            this.Button_Browse.Location = new System.Drawing.Point(343, 78);
             this.Button_Browse.Name = "Button_Browse";
             this.Button_Browse.Size = new System.Drawing.Size(117, 36);
             this.Button_Browse.TabIndex = 0;
             this.Button_Browse.Text = "Browse";
             this.Button_Browse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Button_Browse.UseVisualStyleBackColor = true;
+            this.Button_Browse.UseVisualStyleBackColor = false;
             this.Button_Browse.Click += new System.EventHandler(this.Button_Browse_Click);
             // 
             // Button_Copy
             // 
+            this.Button_Copy.BackColor = System.Drawing.Color.White;
+            this.Button_Copy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Button_Copy.Image = ((System.Drawing.Image)(resources.GetObject("Button_Copy.Image")));
             this.Button_Copy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_Copy.Location = new System.Drawing.Point(341, 36);
+            this.Button_Copy.Location = new System.Drawing.Point(343, 36);
             this.Button_Copy.Name = "Button_Copy";
             this.Button_Copy.Size = new System.Drawing.Size(117, 36);
             this.Button_Copy.TabIndex = 1;
             this.Button_Copy.Text = "Copy";
             this.Button_Copy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Button_Copy.UseVisualStyleBackColor = true;
+            this.Button_Copy.UseVisualStyleBackColor = false;
             this.Button_Copy.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // OpenFileDialog
@@ -70,10 +74,10 @@
             // 
             // RichTextBox_FileInfo
             // 
-            this.RichTextBox_FileInfo.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.RichTextBox_FileInfo.BackColor = System.Drawing.Color.White;
             this.RichTextBox_FileInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RichTextBox_FileInfo.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RichTextBox_FileInfo.ForeColor = System.Drawing.SystemColors.Info;
+            this.RichTextBox_FileInfo.ForeColor = System.Drawing.Color.Black;
             this.RichTextBox_FileInfo.Location = new System.Drawing.Point(12, 12);
             this.RichTextBox_FileInfo.Name = "RichTextBox_FileInfo";
             this.RichTextBox_FileInfo.ReadOnly = true;
@@ -88,7 +92,7 @@
             this.CheckBox_Verbose.AutoSize = true;
             this.CheckBox_Verbose.Checked = true;
             this.CheckBox_Verbose.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBox_Verbose.Location = new System.Drawing.Point(341, 12);
+            this.CheckBox_Verbose.Location = new System.Drawing.Point(343, 12);
             this.CheckBox_Verbose.Name = "CheckBox_Verbose";
             this.CheckBox_Verbose.Size = new System.Drawing.Size(75, 18);
             this.CheckBox_Verbose.TabIndex = 7;
@@ -110,7 +114,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(470, 178);
             this.Controls.Add(this.PictureBox_Logo);
             this.Controls.Add(this.CheckBox_Verbose);
@@ -126,7 +130,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "2Checksum";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.CommonDragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

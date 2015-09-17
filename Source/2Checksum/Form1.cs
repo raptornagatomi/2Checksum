@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 //-------------------------------------------------------------------------------------------------
 //
@@ -49,6 +50,15 @@ namespace _2Checksum
         {
             InitializeComponent();
             GatherFileInformation(FileList);
+
+            // Display & Update file information
+            for (int i = 0; i < FileInformation.Length; i++)
+            {
+                if (i == 0)
+                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                else
+                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+            }
         }
 
         //
@@ -63,6 +73,15 @@ namespace _2Checksum
             if (OpenFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 GatherFileInformation(OpenFileDialog1.FileNames);
+
+                // Display & Update file information
+                for (int i = 0; i < FileInformation.Length; i++)
+                {
+                    if (i == 0)
+                        DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                    else
+                        DisplayAndUpdateFileInformation(false, FileInformation[i]);
+                }
             }
         }
 
@@ -104,11 +123,8 @@ namespace _2Checksum
                 CalcChecksum(FileInformation[i].Filename, FileInformation[i].FileSize, MAX_THREAD_NUM);
                 FileInformation[i].Checksum = Checksum;
 
-                // Display & Update file information
-                if (i == 0)
-                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
-                else
-                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+                // Retrieve File Version Information for .EXE file
+                FileInformation[i].ExeFileVersion = FileVersionInfo.GetVersionInfo(FileList[i]).FileVersion;
             }
         }
 
@@ -124,15 +140,19 @@ namespace _2Checksum
 
             if (CheckBox_Verbose.Checked)
             {
-                const string STR_FILENAME_PROMPT = "Filename    : ";
-                const string STR_FILEDATE_PROMPT = "File time   : ";
-                const string STR_FILESIZE_PROMPT = "File size   : ";
-                const string STR_CHECKSUM_PROMPT = "Checksum    : ";
+                const string STR_FILENAME_PROMPT = "Filename     : ";
+                const string STR_FILEDATE_PROMPT = "File time    : ";
+                const string STR_FILESIZE_PROMPT = "File size    : ";
+                const string STR_CHECKSUM_PROMPT = "Checksum     : ";
+                const string STR_FILE_VER_PROMPT = "File version : ";
 
                 RichTextBox_FileInfo.AppendText(STR_FILENAME_PROMPT + Path.GetFileName(FileInformation.Filename) + "\n");
-                RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + FileInformation.FileTime.ToString() + "\n");
+                RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + String.Format("{0:yyyy/MM/dd, hh:mm:ss tt}\n", FileInformation.FileTime));
                 RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
                 RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h\n");
+
+                if(FileInformation.ExeFileVersion != null)
+                    RichTextBox_FileInfo.AppendText(STR_FILE_VER_PROMPT + FileInformation.ExeFileVersion + "\n");
             }
             else
             {
@@ -231,7 +251,7 @@ namespace _2Checksum
         //
         // Procedure: Form1_DragEnter
         //
-        private void Form1_DragEnter(object sender, DragEventArgs e)
+        private void CommonDragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
                 e.Effect = DragDropEffects.All;
@@ -245,6 +265,15 @@ namespace _2Checksum
             string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop);
 
             GatherFileInformation(FileList);
+
+            // Display & Update file information
+            for (int i = 0; i < FileInformation.Length; i++)
+            {
+                if (i == 0)
+                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                else
+                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+            }
         }
 
         //
@@ -276,6 +305,7 @@ namespace _2Checksum
         private DateTime _FileTime = new DateTime();
         private long _FileSize = 0;
         private uint _Checksum = 0U;
+        private string _ExeFileVersion = "Not Available";
 
         // Attribute: Filename
         public string Filename
@@ -330,6 +360,20 @@ namespace _2Checksum
             set
             {
                 _Checksum = value;
+            }
+        }
+
+        // Attribute: ExeFileVerison
+        public string ExeFileVersion
+        {
+            get
+            {
+                return _ExeFileVersion;
+            }
+
+            set
+            {
+                _ExeFileVersion = value;
             }
         }
     }
