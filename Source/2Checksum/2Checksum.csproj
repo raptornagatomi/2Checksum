@@ -47,7 +47,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>2Checksum.ico</ApplicationIcon>
+    <ApplicationIcon>sum.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="2Checksum.ico" />
+    <Content Include="sum.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
