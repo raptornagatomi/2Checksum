@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using ChecksumLib;
 
 //-------------------------------------------------------------------------------------------------
 //
@@ -23,10 +24,9 @@ namespace _2Checksum
     {
         const int MAX_THREAD_NUM = 20;
 
-        private _FileInformation[] FileInformation;
+        private FileInformation[] FileInfo;
         private object Locker = new object();
         private int FinishThreadCount = 0;
-        private uint Checksum = 0U;
 
         //
         // Constructor: Form1()
@@ -45,12 +45,12 @@ namespace _2Checksum
             GatherFileInformation(FileList);
 
             // Display & Update file information
-            for (int i = 0; i < FileInformation.Length; i++)
+            for (int i = 0; i < FileInfo.Length; i++)
             {
                 if (i == 0)
-                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                    DisplayAndUpdateFileInformation(true, FileInfo[i]);
                 else
-                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+                    DisplayAndUpdateFileInformation(false, FileInfo[i]);
             }
         }
 
@@ -68,12 +68,12 @@ namespace _2Checksum
                 GatherFileInformation(OpenFileDialog1.FileNames);
 
                 // Display & Update file information
-                for (int i = 0; i < FileInformation.Length; i++)
+                for (int i = 0; i < FileInfo.Length; i++)
                 {
                     if (i == 0)
-                        DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                        DisplayAndUpdateFileInformation(true, FileInfo[i]);
                     else
-                        DisplayAndUpdateFileInformation(false, FileInformation[i]);
+                        DisplayAndUpdateFileInformation(false, FileInfo[i]);
                 }
             }
         }
@@ -93,12 +93,14 @@ namespace _2Checksum
         private void GatherFileInformation(string[] FileList)
         {
             FileStream FileToCalc;
+            UInt16 Checksum = 0;
+            AdditionChecksum BiosChecksum = new AdditionChecksum();
 
             // Assign memory for FileInformation array
-            FileInformation = new _FileInformation[FileList.Length];
+            FileInfo = new FileInformation[FileList.Length];
             for (int i = 0; i < FileList.Length; i++)
             {
-                FileInformation[i] = new _FileInformation();
+                FileInfo[i] = new FileInformation();
             }
 
             for (int i = 0; i < FileList.Length; i++)
@@ -106,25 +108,25 @@ namespace _2Checksum
                 // Retrieve FileInformation
                 FileToCalc = File.Open(FileList[i], FileMode.Open, FileAccess.Read);
 
-                FileInformation[i].Filename = FileList[i];
-                FileInformation[i].FileTime = File.GetLastWriteTime(FileList[i]);
-                FileInformation[i].FileSize = FileToCalc.Length;
+                FileInfo[i].Filename = FileList[i];
+                FileInfo[i].FileTime = File.GetLastWriteTime(FileList[i]);
+                FileInfo[i].FileSize = FileToCalc.Length;
 
                 FileToCalc.Close();
 
                 // Calculate checksum
-                CalcChecksum(FileInformation[i].Filename, FileInformation[i].FileSize, MAX_THREAD_NUM);
-                FileInformation[i].Checksum = Checksum;
+                BiosChecksum.CalcChecksum(FileList[i], out Checksum);
+                FileInfo[i].Checksum = Checksum;
 
                 // Retrieve File Version Information for .EXE file
-                FileInformation[i].ExeFileVersion = FileVersionInfo.GetVersionInfo(FileList[i]).FileVersion;
+                FileInfo[i].ExeFileVersion = FileVersionInfo.GetVersionInfo(FileList[i]).FileVersion;
             }
         }
 
         //
         // Procedure: DisplayAndUpdateFileInformation
         //
-        private void DisplayAndUpdateFileInformation(bool bClearContent, _FileInformation FileInformation)
+        private void DisplayAndUpdateFileInformation(bool bClearContent, FileInformation FileInformation)
         {
             if (bClearContent)
             {
@@ -156,93 +158,7 @@ namespace _2Checksum
         }
 
         //
-        // Procedure: CalcChecksum
-        //
-        private void CalcChecksum(string FilePath, long FileSize, int NumOfThreads)
-        {
-            Byte[] StreamBuffer;
-            Byte[][] PartialStreamBuffer;
-
-            Checksum = 0U;
-            StreamBuffer = File.ReadAllBytes(FilePath);
-
-            if (FileSize < NumOfThreads)
-            {
-                Checksum = 0U;
-
-                for (int i = 0; i < FileSize; i++)
-                {
-                    Checksum += StreamBuffer[i];
-                }
-            }
-            else
-            {
-                // Assign memory to PartialStreamBuffer & copy partial file stream to the buffer
-                PartialStreamBuffer = new Byte[NumOfThreads][];
-                for (int i = 0; i < NumOfThreads - 1; i++)
-                {
-                    PartialStreamBuffer[i] = new Byte[(int)FileSize / (NumOfThreads - 1)];
-                    Buffer.BlockCopy(StreamBuffer, i * ((int)FileSize / (NumOfThreads - 1)), PartialStreamBuffer[i], 0, (int)FileSize / (NumOfThreads - 1));
-                }
-
-                PartialStreamBuffer[NumOfThreads - 1] = new Byte[FileSize % (NumOfThreads - 1)];
-                Buffer.BlockCopy(StreamBuffer, ((int)FileSize / (NumOfThreads - 1)) * (NumOfThreads - 1), PartialStreamBuffer[NumOfThreads - 1], 0, (int)FileSize - ((int)FileSize / (NumOfThreads - 1)) * (NumOfThreads - 1));
-
-                // Create threads used to calculate partial checksum values
-                for (int i = 0; i < NumOfThreads; i++)
-                {
-                    PartialChecksumCalcThreadParam Param = new PartialChecksumCalcThreadParam();
-
-                    Param.PartialStream = PartialStreamBuffer[i];
-
-                    if (i < NumOfThreads - 1)
-                    {
-                        Param.StreamSize = (int)FileSize / (NumOfThreads - 1);
-                    }
-                    else
-                    {
-                        Param.StreamSize = (int)FileSize - ((int)FileSize / (NumOfThreads - 1)) * (NumOfThreads - 1);
-                    }
-
-                    Thread CalcThread = new Thread(new ParameterizedThreadStart(PartialChecksumCalcThread));
-                    CalcThread.Start(Param);
-                }
-
-                lock (Locker)
-                {
-                    while (FinishThreadCount != MAX_THREAD_NUM)
-                    {
-                        Monitor.Wait(Locker);
-                    }
-                }
-
-                FinishThreadCount = 0;
-            }
-        }
-
-        //
-        // Thread Method: PartialChecksumCalcThread
-        //
-        private void PartialChecksumCalcThread(object Obj)
-        {
-            PartialChecksumCalcThreadParam Param = (PartialChecksumCalcThreadParam)Obj;
-            uint PartialChecksum = 0U;
-
-            for (int i = 0; i < Param.StreamSize; i++)
-            {
-                PartialChecksum += Param.PartialStream[i];
-            }
-
-            lock (Locker)
-            {
-                Checksum += PartialChecksum;
-                FinishThreadCount++;
-                Monitor.Pulse(Locker);
-            }
-        }
-
-        //
-        // Procedure: Form1_DragEnter
+        // Procedure: CommonDragEnter
         //
         private void CommonDragEnter(object sender, DragEventArgs e)
         {
@@ -260,12 +176,12 @@ namespace _2Checksum
             GatherFileInformation(FileList);
 
             // Display & Update file information
-            for (int i = 0; i < FileInformation.Length; i++)
+            for (int i = 0; i < FileInfo.Length; i++)
             {
                 if (i == 0)
-                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                    DisplayAndUpdateFileInformation(true, FileInfo[i]);
                 else
-                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+                    DisplayAndUpdateFileInformation(false, FileInfo[i]);
             }
         }
 
@@ -275,24 +191,24 @@ namespace _2Checksum
         private void CheckBox_Verbose_Click(object sender, EventArgs e)
         {
             // Check if any file checksum has been calculated
-            if (FileInformation == null)
+            if (FileInfo == null)
                 return;
 
             // Display & Update file information
-            for (int i = 0; i < FileInformation.Length; i++)
+            for (int i = 0; i < FileInfo.Length; i++)
             {
                 if (i == 0)
-                    DisplayAndUpdateFileInformation(true, FileInformation[i]);
+                    DisplayAndUpdateFileInformation(true, FileInfo[i]);
                 else
-                    DisplayAndUpdateFileInformation(false, FileInformation[i]);
+                    DisplayAndUpdateFileInformation(false, FileInfo[i]);
             }
         }
     }
 
     //
-    // Class: _FileInformation
+    // Class: FileInformation
     //
-    class _FileInformation
+    class FileInformation
     {
         private string _Filename = "Not Available";
         private DateTime _FileTime = new DateTime();
@@ -369,14 +285,5 @@ namespace _2Checksum
                 _ExeFileVersion = value;
             }
         }
-    }
-
-    //
-    // Class: PartialChecksumCalcThreadParam
-    //
-    public class PartialChecksumCalcThreadParam
-    {
-        public Byte[] PartialStream;
-        public long StreamSize;
     }
 }
