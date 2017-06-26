@@ -93,7 +93,7 @@ namespace _2Checksum
         private void GatherFileInformation(string[] FileList)
         {
             FileStream FileToCalc;
-            UInt16 Checksum = 0;
+            UInt32 Checksum = 0;
             AdditionChecksum BiosChecksum = new AdditionChecksum();
 
             // Assign memory for FileInformation array
@@ -142,16 +142,23 @@ namespace _2Checksum
                 const string STR_FILE_VER_PROMPT = "File version : ";
 
                 RichTextBox_FileInfo.AppendText(STR_FILENAME_PROMPT + Path.GetFileName(FileInformation.Filename) + "\n");
-                RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + String.Format("{0:yyyy/MM/dd, hh:mm:ss tt}\n", FileInformation.FileTime));
+                RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + String.Format("{0:yyyy/MM/dd, HH:mm:ss}\n", FileInformation.FileTime));
                 RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
-                RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h\n");
+
+                if (CheckBox_DigitLength.Checked)    // 8-digit checksum
+                    RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + "h\n");
+                else // 4-digit checksum
+                    RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h\n");
 
                 if (FileInformation.ExeFileVersion != null)
                     RichTextBox_FileInfo.AppendText(STR_FILE_VER_PROMPT + FileInformation.ExeFileVersion + "\n");
             }
             else
             {
-                RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (" + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h" + ")");
+                if (CheckBox_DigitLength.Checked)    // 8-digit checksum
+                    RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (" + String.Format("{0:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + "h" + ")");
+                else // 4-digit checksum
+                    RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (" + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h" + ")");
             }
 
             RichTextBox_FileInfo.AppendText("\n");
@@ -193,6 +200,27 @@ namespace _2Checksum
             // Check if any file checksum has been calculated
             if (FileInfo == null)
                 return;
+
+            // Display & Update file information
+            for (int i = 0; i < FileInfo.Length; i++)
+            {
+                if (i == 0)
+                    DisplayAndUpdateFileInformation(true, FileInfo[i]);
+                else
+                    DisplayAndUpdateFileInformation(false, FileInfo[i]);
+            }
+        }
+
+        private void CheckBox_DigitLength_CheckedChanged(object sender, EventArgs e)
+        {
+            if(CheckBox_DigitLength.Checked)
+            {
+                CheckBox_DigitLength.Text = "8-digit";
+            }
+            else
+            {
+                CheckBox_DigitLength.Text = "4-digit";
+            }
 
             // Display & Update file information
             for (int i = 0; i < FileInfo.Length; i++)

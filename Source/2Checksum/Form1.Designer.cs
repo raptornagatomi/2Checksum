@@ -35,6 +35,7 @@
             this.RichTextBox_FileInfo = new System.Windows.Forms.RichTextBox();
             this.CheckBox_Verbose = new System.Windows.Forms.CheckBox();
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
+            this.CheckBox_DigitLength = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,9 +99,9 @@
             this.CheckBox_Verbose.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
             this.CheckBox_Verbose.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.CheckBox_Verbose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBox_Verbose.Location = new System.Drawing.Point(343, 144);
+            this.CheckBox_Verbose.Location = new System.Drawing.Point(343, 140);
             this.CheckBox_Verbose.Name = "CheckBox_Verbose";
-            this.CheckBox_Verbose.Size = new System.Drawing.Size(66, 24);
+            this.CheckBox_Verbose.Size = new System.Drawing.Size(74, 28);
             this.CheckBox_Verbose.TabIndex = 7;
             this.CheckBox_Verbose.Text = "Verbose";
             this.CheckBox_Verbose.UseVisualStyleBackColor = true;
@@ -115,14 +116,30 @@
             this.PictureBox_Logo.TabIndex = 8;
             this.PictureBox_Logo.TabStop = false;
             // 
+            // CheckBox_DigitLength
+            // 
+            this.CheckBox_DigitLength.Appearance = System.Windows.Forms.Appearance.Button;
+            this.CheckBox_DigitLength.AutoSize = true;
+            this.CheckBox_DigitLength.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
+            this.CheckBox_DigitLength.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
+            this.CheckBox_DigitLength.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBox_DigitLength.Location = new System.Drawing.Point(343, 106);
+            this.CheckBox_DigitLength.Name = "CheckBox_DigitLength";
+            this.CheckBox_DigitLength.Size = new System.Drawing.Size(74, 28);
+            this.CheckBox_DigitLength.TabIndex = 9;
+            this.CheckBox_DigitLength.Text = "4-digit";
+            this.CheckBox_DigitLength.UseVisualStyleBackColor = true;
+            this.CheckBox_DigitLength.CheckedChanged += new System.EventHandler(this.CheckBox_DigitLength_CheckedChanged);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(470, 178);
             this.Controls.Add(this.PictureBox_Logo);
+            this.Controls.Add(this.CheckBox_DigitLength);
             this.Controls.Add(this.CheckBox_Verbose);
             this.Controls.Add(this.RichTextBox_FileInfo);
             this.Controls.Add(this.Button_Copy);
@@ -151,6 +168,7 @@
         private System.Windows.Forms.RichTextBox RichTextBox_FileInfo;
         private System.Windows.Forms.CheckBox CheckBox_Verbose;
         private System.Windows.Forms.PictureBox PictureBox_Logo;
+        private System.Windows.Forms.CheckBox CheckBox_DigitLength;
     }
 }
 

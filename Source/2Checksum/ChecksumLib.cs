@@ -20,7 +20,7 @@ namespace ChecksumLib
         //
         // Properties
         //
-        private UInt16 _Checksum = 0;
+        private UInt32 _Checksum = 0;
 
         //
         // Structures
@@ -34,7 +34,7 @@ namespace ChecksumLib
         //
         // Procedure: CalcChecksum
         //
-        public void CalcChecksum(string Filename, out UInt16 Checksum)
+        public void CalcChecksum(string Filename, out UInt32 Checksum)
         {
             Byte[] Buffer;
             Byte[][] PartialBuffers;
@@ -108,7 +108,7 @@ namespace ChecksumLib
         private void PartialChecksumCalcThread(object Obj)
         {
             PartialChecksumCalcThreadParam Param = (PartialChecksumCalcThreadParam)Obj;
-            UInt16 PartialChecksum = 0;
+            UInt32 PartialChecksum = 0;
 
             for (int i = 0; i < Param.StreamSize; i++)
             {
