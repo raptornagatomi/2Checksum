@@ -223,12 +223,15 @@ namespace _2Checksum
             }
 
             // Display & Update file information
-            for (int i = 0; i < FileInfo.Length; i++)
+            if (FileInfo != null)
             {
-                if (i == 0)
-                    DisplayAndUpdateFileInformation(true, FileInfo[i]);
-                else
-                    DisplayAndUpdateFileInformation(false, FileInfo[i]);
+                for (int i = 0; i < FileInfo.Length; i++)
+                {
+                    if (i == 0)
+                        DisplayAndUpdateFileInformation(true, FileInfo[i]);
+                    else
+                        DisplayAndUpdateFileInformation(false, FileInfo[i]);
+                }
             }
         }
     }
