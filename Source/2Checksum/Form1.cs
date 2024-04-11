@@ -28,6 +28,12 @@ namespace _2Checksum
         private object Locker = new object();
         private int FinishThreadCount = 0;
 
+        const string STR_FILENAME_PROMPT = "Filename     : ";
+        const string STR_FILEDATE_PROMPT = "File time    : ";
+        const string STR_FILESIZE_PROMPT = "File size    : ";
+        const string STR_CHECKSUM_PROMPT = "Checksum     : ";
+        const string STR_FILE_VER_PROMPT = "File version : ";
+
         //
         // Constructor: Form1()
         //
@@ -135,12 +141,6 @@ namespace _2Checksum
 
             if (CheckBox_Verbose.Checked)
             {
-                const string STR_FILENAME_PROMPT = "Filename     : ";
-                const string STR_FILEDATE_PROMPT = "File time    : ";
-                const string STR_FILESIZE_PROMPT = "File size    : ";
-                const string STR_CHECKSUM_PROMPT = "Checksum     : ";
-                const string STR_FILE_VER_PROMPT = "File version : ";
-
                 RichTextBox_FileInfo.AppendText(STR_FILENAME_PROMPT + Path.GetFileName(FileInformation.Filename) + "\n");
                 RichTextBox_FileInfo.AppendText(STR_FILEDATE_PROMPT + String.Format("{0:yyyy/MM/dd, HH:mm:ss}\n", FileInformation.FileTime));
                 RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
@@ -232,6 +232,27 @@ namespace _2Checksum
                     else
                         DisplayAndUpdateFileInformation(false, FileInfo[i]);
                 }
+            }
+        }
+
+        private void Button_Export_Click(object sender, EventArgs e)
+        {
+            const string EXPORT_FILENAME = "Checksum.txt";
+            string ExportInfo = "";
+
+            if (RichTextBox_FileInfo.TextLength > 0)
+            {
+                for (int i = 0; i < FileInfo.Length; i++)
+                {
+                    ExportInfo = ExportInfo + STR_FILENAME_PROMPT + Path.GetFileName(FileInfo[i].Filename) + "\n";
+
+                    if (CheckBox_DigitLength.Checked)   // 8-digit checksum
+                        ExportInfo = ExportInfo + STR_CHECKSUM_PROMPT + String.Format("{0:X8}", (FileInfo[i].Checksum & 0xFFFFFFFF)) + "h\n\n";
+                    else    // 4-digit checksum
+                        ExportInfo = ExportInfo + STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInfo[i].Checksum & 0xFFFF)) + "h\n\n";
+                }
+
+                System.IO.File.WriteAllText(EXPORT_FILENAME, ExportInfo);
             }
         }
     }
