@@ -40,12 +40,12 @@ namespace _2Checksum
                             if(CliArgs[2] == "4")   // export with 4-digit format
                             {
                                 ExportInfo = ExportInfo + Form1.STR_FILENAME_PROMPT + Path.GetFileName(Form1.FileInfo[i].Filename) + "\n";
-                                ExportInfo = ExportInfo + Form1.STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (Form1.FileInfo[i].Checksum & 0xFFFF)) + "h\n\n";
+                                ExportInfo = ExportInfo + Form1.STR_CHECKSUM_PROMPT + "0x" + String.Format("{0:X4}", (Form1.FileInfo[i].Checksum & 0xFFFF)) + "\n\n";
                             }
                             else if (CliArgs[2] == "8") // export with 8-digit format
                             {
                                 ExportInfo = ExportInfo + Form1.STR_FILENAME_PROMPT + Path.GetFileName(Form1.FileInfo[i].Filename) + "\n";
-                                ExportInfo = ExportInfo + Form1.STR_CHECKSUM_PROMPT + String.Format("{0:X8}", (Form1.FileInfo[i].Checksum & 0xFFFFFFFF)) + "h\n\n";
+                                ExportInfo = ExportInfo + Form1.STR_CHECKSUM_PROMPT + "0x" + String.Format("{0:X8}", (Form1.FileInfo[i].Checksum & 0xFFFFFFFF)) + "\n\n";
                             }
                             else    // Invalid checksum format
                             {

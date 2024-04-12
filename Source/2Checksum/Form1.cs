@@ -148,9 +148,9 @@ namespace _2Checksum
                 RichTextBox_FileInfo.AppendText(STR_FILESIZE_PROMPT + String.Format("{0:n0}", FileInformation.FileSize) + " bytes\n");
 
                 if (CheckBox_DigitLength.Checked)    // 8-digit checksum
-                    RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + "h\n");
+                    RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + "0x" + String.Format("{0:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + "\n");
                 else // 4-digit checksum
-                    RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h\n");
+                    RichTextBox_FileInfo.AppendText(STR_CHECKSUM_PROMPT + "0x" + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "\n");
 
                 if (FileInformation.ExeFileVersion != null)
                     RichTextBox_FileInfo.AppendText(STR_FILE_VER_PROMPT + FileInformation.ExeFileVersion + "\n");
@@ -158,9 +158,9 @@ namespace _2Checksum
             else
             {
                 if (CheckBox_DigitLength.Checked)    // 8-digit checksum
-                    RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (" + String.Format("{0:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + "h" + ")");
+                    RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (0x" + String.Format("{0:X8}", (FileInformation.Checksum & 0xFFFFFFFF)) + ")");
                 else // 4-digit checksum
-                    RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (" + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + "h" + ")");
+                    RichTextBox_FileInfo.AppendText(Path.GetFileName(FileInformation.Filename) + " (0x" + String.Format("{0:X4}", (FileInformation.Checksum & 0xFFFF)) + ")");
             }
 
             RichTextBox_FileInfo.AppendText("\n");
@@ -248,9 +248,9 @@ namespace _2Checksum
                     ExportInfo = ExportInfo + STR_FILENAME_PROMPT + Path.GetFileName(FileInfo[i].Filename) + "\n";
 
                     if (CheckBox_DigitLength.Checked)   // 8-digit checksum
-                        ExportInfo = ExportInfo + STR_CHECKSUM_PROMPT + String.Format("{0:X8}", (FileInfo[i].Checksum & 0xFFFFFFFF)) + "h\n\n";
+                        ExportInfo = ExportInfo + STR_CHECKSUM_PROMPT + "0x" + String.Format("{0:X8}", (FileInfo[i].Checksum & 0xFFFFFFFF)) + "\n\n";
                     else    // 4-digit checksum
-                        ExportInfo = ExportInfo + STR_CHECKSUM_PROMPT + String.Format("{0:X4}", (FileInfo[i].Checksum & 0xFFFF)) + "h\n\n";
+                        ExportInfo = ExportInfo + STR_CHECKSUM_PROMPT + "0x" + String.Format("{0:X4}", (FileInfo[i].Checksum & 0xFFFF)) + "\n\n";
                 }
 
                 System.IO.File.WriteAllText(EXPORT_FILENAME, ExportInfo);
