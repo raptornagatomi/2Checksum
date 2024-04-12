@@ -24,15 +24,17 @@ namespace _2Checksum
     {
         const int MAX_THREAD_NUM = 20;
 
-        private FileInformation[] FileInfo;
+        public static FileInformation[] FileInfo;
         private object Locker = new object();
         private int FinishThreadCount = 0;
 
-        const string STR_FILENAME_PROMPT = "Filename     : ";
-        const string STR_FILEDATE_PROMPT = "File time    : ";
-        const string STR_FILESIZE_PROMPT = "File size    : ";
-        const string STR_CHECKSUM_PROMPT = "Checksum     : ";
-        const string STR_FILE_VER_PROMPT = "File version : ";
+        public const string STR_FILENAME_PROMPT = "Filename     : ";
+        public const string STR_FILEDATE_PROMPT = "File time    : ";
+        public const string STR_FILESIZE_PROMPT = "File size    : ";
+        public const string STR_CHECKSUM_PROMPT = "Checksum     : ";
+        public const string STR_FILE_VER_PROMPT = "File version : ";
+
+        public const string EXPORT_FILENAME = "Checksum.txt";
 
         //
         // Constructor: Form1()
@@ -237,7 +239,6 @@ namespace _2Checksum
 
         private void Button_Export_Click(object sender, EventArgs e)
         {
-            const string EXPORT_FILENAME = "Checksum.txt";
             string ExportInfo = "";
 
             if (RichTextBox_FileInfo.TextLength > 0)
@@ -260,7 +261,7 @@ namespace _2Checksum
     //
     // Class: FileInformation
     //
-    class FileInformation
+    public class FileInformation
     {
         private string _Filename = "Not Available";
         private DateTime _FileTime = new DateTime();
